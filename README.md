@@ -1,27 +1,13 @@
-# kaminolabs Next.js Template
+# Rental Questionnaire
 
-A minimal Next.js starter template with TypeScript, Tailwind CSS, ESLint, and Prettier.
+Private tracker for prospective tenants. Next.js 15 + Supabase + Vercel.
 
-## Stack
+## Setup
 
-- [Next.js 15](https://nextjs.org/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [ESLint](https://eslint.org/) + [Prettier](https://prettier.io/)
-
-## Getting Started
-
-```bash
-npm install
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. In your Supabase project, run `supabase/migrations/001_schema.sql` in the SQL editor. **It is destructive**: it drops and recreates all `rental_data_*` tables. Later `002+` files are incremental.
+2. In Supabase → Authentication → Users, create your user (email + password). There is no sign-up page.
+3. Copy `.env.example` to `.env.local` and fill in the project URL and anon key. Set the same two variables in Vercel.
+4. `npm install && npm run dev`
 
 ## Scripts
-
-- `npm run dev` — start dev server
-- `npm run build` — build for production
-- `npm run start` — start production server
-- `npm run lint` — run ESLint
-- `npm run format` — run Prettier
+`dev`, `build`, `start`, `lint`, `typecheck`, `format`
