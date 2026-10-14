@@ -4,7 +4,7 @@ Private tracker for prospective tenants of Arun's apartment (950 €/month + uti
 Single-user, Spanish UI. Next.js 15 (App Router) + Supabase (auth + Postgres) on Vercel.
 
 - All DB tables are prefixed `rental_data_`.
-- Auth: Supabase email/password, with a username shortcut (`admin` → `admin@rental.local`, see `toLoginEmail` in `actions.ts`); every route except `/login` is protected by `src/middleware.ts`. No public form.
+- Auth: Supabase email/password, with a username shortcut (`rental` → `rental@kaminolabs.dev`, see `toLoginEmail` in `actions.ts`); every route except `/login` is protected by `src/middleware.ts`. No public form.
 - Schema: `supabase/migrations/001_schema.sql` is the **all-inclusive, destructive** from-scratch schema (drops and recreates everything). `002+` are incremental additions; whenever one is added, also fold it into `001` so 001 always stands alone.
 - Env: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` (see `.env.example`).
 - Code layout: `src/app` (pages + server actions in `actions.ts`), `src/components/ApplicantForm.tsx`, `src/lib` (Supabase client, types).

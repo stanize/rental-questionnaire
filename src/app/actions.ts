@@ -36,10 +36,10 @@ function parseApplicant(fd: FormData) {
   };
 }
 
-// Allow a plain username (e.g. "admin"): Supabase needs an email, so map it to a fixed internal domain.
+// Allow a plain username (e.g. "rental"): Supabase needs an email, so map it to a fixed internal domain.
 const toLoginEmail = (input: string) => {
   const v = input.trim().toLowerCase();
-  return v.includes("@") ? v : `${v}@rental.local`;
+  return v.includes("@") ? v : `${v}@kaminolabs.dev`;
 };
 
 export async function login(_: FormState, fd: FormData): Promise<FormState> {
