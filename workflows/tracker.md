@@ -12,9 +12,10 @@ Status: in_progress
 - Email/password login, middleware protects all routes. User must be created manually in Supabase Auth dashboard (no sign-up page, by design).
 - Criteria: implemented; pending manual testing.
 
-## Step 3: List (with paragraph summary per applicant), search, filter by status
+## Step 3: List (paragraph summary per applicant), live search + status filter
 Status: in_progress
 - Each row shows a generated Spanish paragraph (`summarize()` in `src/lib/applicants.ts`) built from all questionnaire fields, source, visit and notes.
+- Search and estado filter run client-side as you type (accent-insensitive, multi-word, over nombre, email, teléfono, trabajo, origen, notas, ocupantes); fine for a small personal list.
 - Criteria: implemented; pending manual testing.
 
 ## Step 4: Create / edit / delete applicant
