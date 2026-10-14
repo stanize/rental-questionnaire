@@ -18,5 +18,5 @@ Status: in_progress
 
 ## Step 4: Create / edit / delete applicant
 Status: in_progress
-- Contact fields, pipeline (estado, valoración, contacto, visita), the 7 questionnaire questions, personal notes.
+- Form is split into three tabs: Cuestionario (first), Valoración (estado, valoración, contacto, visita, notas), Contacto (nombre, teléfono, email, origen). All tabs live in one form; a required field on a hidden tab switches to that tab.
 - Criteria: implemented; pending manual testing.

@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import Link from "next/link";
 import { saveApplicant, deleteApplicant, type FormState } from "@/app/actions";
 import { STATUSES, TRI, type Applicant } from "@/lib/applicants";
@@ -26,6 +26,13 @@ function Field({
   );
 }
 
+const TABS = [
+  { key: "cuestionario", label: "Cuestionario" },
+  { key: "valoracion", label: "Valoración" },
+  { key: "contacto", label: "Contacto" },
+] as const;
+type Tab = (typeof TABS)[number]["key"];
+
 const toLocalInput = (iso: string | null) => (iso ? iso.slice(0, 16) : "");
 
 export default function ApplicantForm({ applicant }: { applicant?: Applicant }) {
@@ -35,10 +42,38 @@ export default function ApplicantForm({ applicant }: { applicant?: Applicant }) 
     {},
   );
   const a = applicant;
+  const [tab, setTab] = useState<Tab>("cuestionario");
+  const show = (t: Tab) => (tab === t ? "" : "hidden");
 
   return (
-    <form action={action} className="space-y-8">
-      <section className="space-y-4">
+    <form
+      action={action}
+      className="space-y-6"
+      onInvalidCapture={(e) => {
+        const panel = (e.target as HTMLElement).closest<HTMLElement>("[data-tab]");
+        if (panel) setTab(panel.dataset.tab as Tab);
+      }}
+    >
+      <div role="tablist" className="flex gap-1 border-b border-gray-200">
+        {TABS.map((t) => (
+          <button
+            key={t.key}
+            type="button"
+            role="tab"
+            aria-selected={tab === t.key}
+            onClick={() => setTab(t.key)}
+            className={`-mb-px border-b-2 px-4 py-2 text-sm font-medium ${
+              tab === t.key
+                ? "border-blue-600 text-blue-700"
+                : "border-transparent text-gray-500 hover:text-gray-800"
+            }`}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      <section data-tab="contacto" className={`space-y-4 ${show("contacto")}`}>
         <h2 className="text-lg font-semibold">Contacto</h2>
         <Field label="Nombre *">
           <input name="full_name" required defaultValue={a?.full_name} className={input} />
@@ -56,8 +91,8 @@ export default function ApplicantForm({ applicant }: { applicant?: Applicant }) 
         </Field>
       </section>
 
-      <section className="space-y-4">
-        <h2 className="text-lg font-semibold">Seguimiento</h2>
+      <section data-tab="valoracion" className={`space-y-4 ${show("valoracion")}`}>
+        <h2 className="text-lg font-semibold">Valoración</h2>
         <div className="grid gap-4 sm:grid-cols-3">
           <Field label="Estado">
             <select name="status" defaultValue={a?.status ?? "nuevo"} className={input}>
@@ -95,9 +130,12 @@ export default function ApplicantForm({ applicant }: { applicant?: Applicant }) 
             className={input}
           />
         </Field>
+        <Field label="Notas personales">
+          <textarea name="notes" rows={5} defaultValue={a?.notes ?? ""} className={input} />
+        </Field>
       </section>
 
-      <section className="space-y-4">
+      <section data-tab="cuestionario" className={`space-y-4 ${show("cuestionario")}`}>
         <h2 className="text-lg font-semibold">Cuestionario</h2>
         <Field label="Trabajo" hint="¿A qué te dedicas actualmente y cuánto tiempo llevas trabajando allí?">
           <textarea name="job" rows={2} defaultValue={a?.job ?? ""} className={input} />
@@ -145,10 +183,6 @@ export default function ApplicantForm({ applicant }: { applicant?: Applicant }) 
         </Field>
       </section>
 
-      <section className="space-y-4">
-        <h2 className="text-lg font-semibold">Notas personales</h2>
-        <textarea name="notes" rows={5} defaultValue={a?.notes ?? ""} className={input} />
-      </section>
 
       {state.error && <p className="text-sm text-red-600">{state.error}</p>}
 
