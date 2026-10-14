@@ -36,10 +36,16 @@ function parseApplicant(fd: FormData) {
   };
 }
 
+// Allow a plain username (e.g. "admin"): Supabase needs an email, so map it to a fixed internal domain.
+const toLoginEmail = (input: string) => {
+  const v = input.trim().toLowerCase();
+  return v.includes("@") ? v : `${v}@rental.local`;
+};
+
 export async function login(_: FormState, fd: FormData): Promise<FormState> {
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({
-    email: String(fd.get("email") ?? ""),
+    email: toLoginEmail(String(fd.get("username") ?? "")),
     password: String(fd.get("password") ?? ""),
   });
   if (error) return { error: "Email o contraseña incorrectos." };
@@ -55,7 +61,7 @@ export async function logout() {
 export async function saveApplicant(
   id: string | null,
   _: FormState,
-  fd: FormData,
+  fd: FormData
 ): Promise<FormState> {
   const data = parseApplicant(fd);
   if (!data.full_name) return { error: "El nombre es obligatorio." };

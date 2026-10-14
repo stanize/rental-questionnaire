@@ -14,13 +14,13 @@ export async function createClient() {
         setAll: (list: CookieToSet[]) => {
           try {
             list.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options),
+              cookieStore.set(name, value, options)
             );
           } catch {
             // Called from a Server Component; middleware refreshes the session.
           }
         },
       },
-    },
+    }
   );
 }

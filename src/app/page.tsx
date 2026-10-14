@@ -99,7 +99,17 @@ export default async function Home({
                   </p>
                 )}
                 <p className="mt-1 whitespace-pre-line text-sm leading-relaxed text-gray-600">
-                  {summarize(a)}
+                  {summarize(a).map((item, i) => (
+                    <span key={item.label}>
+                      {i > 0 && " "}
+                      <strong className="font-semibold text-gray-900">
+                        {item.label}:
+                      </strong>{" "}
+                      {/[.!?…]$/.test(item.value.trim())
+                        ? item.value.trim()
+                        : `${item.value.trim()}.`}
+                    </span>
+                  ))}
                 </p>
               </div>
               {a.rating && (

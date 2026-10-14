@@ -23,7 +23,9 @@ export default async function EditApplicant({
       <Link href="/" className="text-sm text-gray-600 hover:underline">
         ← Volver
       </Link>
-      <h1 className="my-4 text-2xl font-semibold">{(data as Applicant).full_name}</h1>
+      <h1 className="my-4 text-2xl font-semibold">
+        {(data as Applicant).full_name}
+      </h1>
       <ApplicantForm applicant={data as Applicant} />
     </main>
   );
